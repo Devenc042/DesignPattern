@@ -1,0 +1,67 @@
+Question:
+you have to find out which pattern is being used, why is it used and are there any other patterns which can be used instead of these?
+
+1) http://docs.oracle.com/javase/8/docs/api/java/awt/Desktop.html#getDesktop
+2) http://docs.oracle.com/javase/8/docs/api/java/util/AbstractList.html
+
+
+
+Answer:
+
+
+
+1) 
+http://docs.oracle.com/javase/8/docs/api/java/awt/Desktop.html#getDesktop
+
+getDesktop() is a static method defined in the Desktop class. It returns the Desktop instance of current browser context. As Java AWT components are platform-dependent i.e. It means that on some platforms the Desktop API may not be supported so we need to use the isDesktopSupported() method to determine if the current desktop is supported.
+
+a) As getDesktop() returns Desktop instance so it should fall under creational design pattern.
+b) Also getDesktop() is a static method and returns the Desktop instance of current browser 
+   context Hence it needs to keep only a single copy of Desktop instance and can be returned 
+   when getDesktop() is called. This point confirms that This class should be implemented with
+   singleton design pattern.
+
+Alternative:
+As it has to create an instance of Desktop, we can use simple Class with normal constructor. This will create a new instance everytime getDesktop() is called which is not required as we are not using previously created instance as we need only current browser context.
+
+
+
+
+
+
+
+2)
+http://docs.oracle.com/javase/8/docs/api/java/util/AbstractList.html
+
+public abstract class AbstractList<E>
+extends AbstractCollection<E>
+implements List<E>
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+AbstractList class provides a skeletal implementation of the List interface to minimize the effort required to implement this interface backed by a "random access" data store (such as an array).
+By "random access"", we mean that it is the ability to access any item of data from a population of addressable elements roughly as easily and efficiently as any other, no matter how many elements may be in the set.
+
+==>> To implement an unmodifiable list, the programmer needs only to extend this class and provide implementations for the get(int) and size() methods.
+
+==>> To implement a modifiable list, the programmer must additionally override the set(int, E) method (which otherwise throws an UnsupportedOperationException). If the list is variable-size the programmer must additionally override the add(int, E) and remove(int) methods. 
+
+Unlike the other abstract collection implementations, the programmer does not have to provide an iterator implementation; the iterator and list iterator are implemented by this class, on top of the "random access" methods: get(int), set(int, E), add(int, E) and remove(int).
+
+The documentation for each non-abstract method in this class describes its implementation in detail. Each of these methods may be overridden if the collection being implemented admits a more efficient implementation.
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+a) It is an abstract class.
+b) It provides a skeletal implementation of the List interface ( i.e. skeleton of an algorithm).
+c) It does not implement all its method. get(int) and size() == abstract methods
+d) This class serves as template for implementing the List interface and we need 
+   to extend this class to provides some other implementation.
+e) Some non-abstract methods are described in this class but can also be overridden if required by subclasses.
+f) It provides a structure to implementation of List interface and which remain same. 
+   Changes are made in subclasses only for full implementation.
+
+By above properties, we can say that this class should be implemented with the Template Method design pattern.
+
+Alternative:
+The strategy pattern can be alternative to this one but that allows algorithm to be chosen at runtime however this happens at compile-time by subclassing the template.
+
+
